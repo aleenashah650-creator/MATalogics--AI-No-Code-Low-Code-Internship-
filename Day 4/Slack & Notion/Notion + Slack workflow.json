@@ -1,0 +1,275 @@
+{
+  "name": "Notion + Slack workflow",
+  "nodes": [
+    {
+      "parameters": {
+        "pollTimes": {
+          "item": [
+            {
+              "mode": "everyMinute"
+            }
+          ]
+        },
+        "dataSourceId": {
+          "__rl": true,
+          "value": "3b852f2a-f82d-80ba-aac4-000ba03320b8",
+          "mode": "list",
+          "cachedResultName": "Tasks",
+          "cachedResultUrl": "https://app.notion.com/p/3b852f2af82d806eb515c068ac88ec15"
+        }
+      },
+      "type": "n8n-nodes-base.notionTrigger",
+      "typeVersion": 1.1,
+      "position": [
+        0,
+        0
+      ],
+      "id": "404186c7-df21-4094-8b25-dd436e62caf2",
+      "name": "Notion Trigger",
+      "credentials": {
+        "notionApi": {
+          "id": "Y3DtyAMCsN7bhjTI",
+          "name": "Notion account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "authentication": "oAuth2",
+        "select": "channel",
+        "channelId": {
+          "__rl": true,
+          "value": "C0BP5QA2A8N",
+          "mode": "list",
+          "cachedResultName": "n8n-alerts"
+        },
+        "text": "=📋 New Task Added to Notion  Task: {{$json[\"Name\"]}} Status: {{$json[\"Status\"]}} Project:  Due Date: {{ $json['Due date'].start }}",
+        "otherOptions": {}
+      },
+      "type": "n8n-nodes-base.slack",
+      "typeVersion": 2.5,
+      "position": [
+        224,
+        0
+      ],
+      "id": "f6b3ce8c-df2f-4c48-8002-8cb38b9e9ced",
+      "name": "Send a message",
+      "webhookId": "688bdadb-5833-491a-bb67-690c6806a0c7",
+      "credentials": {
+        "slackOAuth2Api": {
+          "id": "KREqIf6ACl4huizH",
+          "name": "Slack account 5"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "pollTimes": {
+          "item": [
+            {
+              "mode": "everyMinute"
+            }
+          ]
+        },
+        "documentId": {
+          "__rl": true,
+          "value": "1obPTPaeTqiPrQSbw_ZV0AAl1vuzGJDiRh2CwQO9sGIs",
+          "mode": "list",
+          "cachedResultName": "Task Submission Form",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1obPTPaeTqiPrQSbw_ZV0AAl1vuzGJDiRh2CwQO9sGIs/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 1386882625,
+          "mode": "list",
+          "cachedResultName": "Form responses 1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1obPTPaeTqiPrQSbw_ZV0AAl1vuzGJDiRh2CwQO9sGIs/edit#gid=1386882625"
+        },
+        "event": "rowAdded",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheetsTrigger",
+      "typeVersion": 1,
+      "position": [
+        -16,
+        208
+      ],
+      "id": "65f9d61a-ae65-47db-ae0e-58e635266904",
+      "name": "Google Sheets Trigger",
+      "credentials": {
+        "googleSheetsTriggerOAuth2Api": {
+          "id": "p38sIZxnWt8PGetW",
+          "name": "Google Sheets Trigger account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "databasePage",
+        "dataSourceId": {
+          "__rl": true,
+          "value": "3b852f2a-f82d-80ba-aac4-000ba03320b8",
+          "mode": "list",
+          "cachedResultName": "Tasks",
+          "cachedResultUrl": "https://app.notion.com/p/3b852f2af82d806eb515c068ac88ec15"
+        },
+        "title": "Student Registration Form",
+        "propertiesUi": {
+          "propertyValues": [
+            {
+              "key": "Name|title",
+              "title": "={{ $json.Name }}"
+            },
+            {
+              "key": "Email|email",
+              "emailValue": "={{ $json.Email }}"
+            },
+            {
+              "key": "Course|rich_text",
+              "textContent": "={{ $json.Course }}"
+            },
+            {
+              "key": "Status|status",
+              "statusValue": "={{ $json.Status }}"
+            }
+          ]
+        },
+        "blockUi": {
+          "blockValues": []
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.notion",
+      "typeVersion": 3,
+      "position": [
+        208,
+        208
+      ],
+      "id": "896fcfb6-99f0-46b2-9187-10900c493f29",
+      "name": "Create a database page",
+      "credentials": {
+        "notionApi": {
+          "id": "Y3DtyAMCsN7bhjTI",
+          "name": "Notion account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "authentication": "oAuth2",
+        "resource": "channel",
+        "channelId": "client-ahmad"
+      },
+      "type": "n8n-nodes-base.slack",
+      "typeVersion": 2.5,
+      "position": [
+        432,
+        208
+      ],
+      "id": "356ede79-4e35-4f11-93a1-fabe2120e791",
+      "name": "Create a channel",
+      "webhookId": "111f9ebd-344c-4384-bd4d-b3c1cd2578e8",
+      "credentials": {
+        "slackOAuth2Api": {
+          "id": "KREqIf6ACl4huizH",
+          "name": "Slack account 5"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "authentication": "oAuth2",
+        "select": "channel",
+        "channelId": {
+          "__rl": true,
+          "value": "C0BP87WSVDL",
+          "mode": "list",
+          "cachedResultName": "client-ahmad"
+        },
+        "text": "🎉 New client onboarded!\n Client: Ahmad\n Email: ahmad@gmail.com\n Course: AI Automation\n Status: New\n ",
+        "otherOptions": {}
+      },
+      "type": "n8n-nodes-base.slack",
+      "typeVersion": 2.5,
+      "position": [
+        656,
+        208
+      ],
+      "id": "f66af467-234e-4534-b6e4-5cfc6a03284c",
+      "name": "Send a message1",
+      "webhookId": "c5f76578-be6f-4891-8dff-953652a4b864",
+      "credentials": {
+        "slackOAuth2Api": {
+          "id": "KREqIf6ACl4huizH",
+          "name": "Slack account 5"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Notion Trigger": {
+      "main": [
+        [
+          {
+            "node": "Send a message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send a message": {
+      "main": [
+        []
+      ]
+    },
+    "Google Sheets Trigger": {
+      "main": [
+        [
+          {
+            "node": "Create a database page",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Create a database page": {
+      "main": [
+        [
+          {
+            "node": "Create a channel",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Create a channel": {
+      "main": [
+        [
+          {
+            "node": "Send a message1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate",
+    "availableInMCP": false
+  },
+  "versionId": "a6cb75b0-75d4-4b2d-b9ec-3256c43a7a4b",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "a45a444a6564d567d7461cdae665ca1a4b863fe81513fcc1c1d6a2502da8c9a2"
+  },
+  "nodeGroups": [],
+  "id": "CPMc8oE98ReG3yTD",
+  "tags": []
+}
